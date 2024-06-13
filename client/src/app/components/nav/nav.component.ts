@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Router } from '@angular/router';
 import { UserModel } from 'src/app/models/userModel';
 import { AccountService } from 'src/app/services/account.service';
 
@@ -11,21 +11,21 @@ import { AccountService } from 'src/app/services/account.service';
 export class NavComponent implements OnInit {
   model: any = {};
 
-  constructor(public accountService: AccountService) { }
+  constructor(public accountService: AccountService, private router: Router) { }
 
   ngOnInit(): void { }
 
   login(): void {
     this.accountService.login(this.model).subscribe({
-      next: () => {},
+      next: () => this.router.navigateByUrl('/members'),
       error: error => console.log(error),
       complete: () => console.log('This request completed successfully!')
     });
-
   }
 
   logout(): void {
     this.accountService.logout();
+    this.router.navigateByUrl('/')
   }
 
   getUserName() {
